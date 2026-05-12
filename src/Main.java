@@ -1,9 +1,11 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Main {
 
     static double balance = 0;
     static boolean running = true;
+    static ArrayList<Transaction> transactions = new ArrayList<>();
 
     static void main() {
 
@@ -16,7 +18,8 @@ public class Main {
             System.out.println("1. Add income");
             System.out.println("2. Add expense");
             System.out.println("3. View balance");
-            System.out.println("4. Exit");
+            System.out.println("4. View Transactions");
+            System.out.println("5. Exit");
 
             int choice = scanner.nextInt();
 
@@ -32,6 +35,9 @@ public class Main {
                     showBalance();
                     break;
                 case 4:
+                    showTransactions();
+                    break;
+                case 5:
                     exit();
                     break;
                 default:
@@ -45,13 +51,37 @@ public class Main {
     static void addIncome(java.util.Scanner scanner) {
         System.out.println("Add income amount");
         double income = scanner.nextDouble();
+
+        scanner.nextLine();
+
+        System.out.println("Category:");
+        String category = scanner.nextLine();
+
+        System.out.println("Description:");
+        String description = scanner.nextLine();
+
         balance += income;
+
+        transactions.add(new Transaction(income, "Income", category, description));
+
         System.out.println("Income added successfully");
     }
     static void addExpense(java.util.Scanner scanner) {
         System.out.println("Add expense amount");
         double expense = scanner.nextDouble();
+
+        scanner.nextLine();
+
+        System.out.println("Category:");
+        String category = scanner.nextLine();
+
+        System.out.println("Description:");
+        String description = scanner.nextLine();
+
         balance -= expense;
+
+        transactions.add(new Transaction(expense, "Expense", category, description));
+
         System.out.println("Expense added successfully");
     }
     static void showBalance() {
@@ -63,5 +93,18 @@ public class Main {
     }
     static void invalidOption() {
         System.out.println("Invalid Option");
+    }
+    static void showTransactions() {
+
+        System.out.println("=== Transaction History ===");
+
+        for (Transaction t : transactions) {
+
+            System.out.println(
+                    t.type + " | $" + t.amount +
+                            " | " + t.category +
+                            " | " + t.description
+            );
+        }
     }
 }
